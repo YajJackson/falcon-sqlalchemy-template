@@ -6,8 +6,9 @@ from skatebase.resources.image import Image
 from skatebase.resources.user import User
 
 
-def create_app(config=None):
-    # await startDB()
+async def create_app(config=None):
+    print('start database')
+    await startDB()
 
     app = application = falcon.asgi.App()
 
