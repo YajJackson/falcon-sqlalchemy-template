@@ -4,8 +4,9 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 import skatebase.settings as settings
 from skatebase.resources.image import Image
-from skatebase.resources.user import User
-from skatebase.database import SQLAlchemySessionManager
+from skatebase.resources.user import UserResource
+from skatebase.middleware.sqlalchemy import SQLAlchemySessionManager
+from skatebase.middleware.logging import LogManager
 
 engine = create_engine(
     "{engine}://{username}:{password}@{host}:{port}/{db_name}".format(
@@ -15,9 +16,12 @@ engine = create_engine(
 session_factory = sessionmaker(bind=engine)
 Session = scoped_session(session_factory)
 
-app = application = falcon.App(middleware=[
-    SQLAlchemySessionManager(Session),
-])
+app = application = falcon.App(
+    middleware=[
+        SQLAlchemySessionManager(Session),
+        LogManager(include_file=False)
+    ]
+)
 
 app.add_route("/image", Image(storage_path="."))
-app.add_route("/user", User())
+app.add_route("/user", UserResource())
