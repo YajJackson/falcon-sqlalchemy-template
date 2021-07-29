@@ -1,10 +1,10 @@
-version: '3.1'
+version: "3.1"
 
 services:
   db:
     image: postgres:13.1
     healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "docker" ]
+      test: ["CMD", "pg_isready", "-q", "-d", "postgres", "-U", "docker"]
       timeout: 45s
       interval: 10s
       retries: 10
@@ -14,14 +14,10 @@ services:
       POSTGRES_USER: docker
       POSTGRES_PASSWORD: chusaiyu3Xah8eefees3ealohgh0uJeiw9oeh1oh
       PGDATA: /var/lib/postgresql/data/pgdata
-    volumes:
-      - ./db:/docker-entrypoint-initdb.d/
     ports:
       - 5432:5432
   api:
     build: .
-    # command: uvicorn skatebase.asgi:app --host 0.0.0.0
-    command: gunicorn skatebase.app:app --bind 0.0.0.0
     volumes:
       - .:/app
     ports:
