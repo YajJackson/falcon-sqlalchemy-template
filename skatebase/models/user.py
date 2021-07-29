@@ -3,7 +3,7 @@ from sqlalchemy.types import Integer, String
 from skatebase.models.model import Base
 
 class UserModel(Base):
-    __tablename__ = 'user_account'
+    __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(30))
