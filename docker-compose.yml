@@ -20,7 +20,8 @@ services:
       - 5432:5432
   api:
     build: .
-    command: uvicorn skatebase.asgi:app
+    # command: uvicorn skatebase.asgi:app --host 0.0.0.0
+    command: gunicorn skatebase.app:app --bind 0.0.0.0
     volumes:
       - .:/app
     ports:

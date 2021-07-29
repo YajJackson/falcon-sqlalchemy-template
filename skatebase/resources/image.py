@@ -15,7 +15,7 @@ class Image:
     def __init__(self, storage_path):
         self._storage_path = storage_path
 
-    async def on_get(self, req, resp):
+    def on_get(self, req, resp):
         doc = {"images": [{"href": "/images/1eaf6ef1-7f2d-4ecc-a8d5-6e8adba7cc0e.png"}]}
 
         # Create a JSON representation of the resource
@@ -26,7 +26,7 @@ class Image:
         # illustrate how this may be overridden as needed.
         resp.status = falcon.HTTP_200
 
-    async def on_post(self, req, resp):
+    def on_post(self, req, resp):
         ext = mimetypes.guess_extension(req.content_type)
         name = f"{uuid.uuid4()}{ext}"
         image_path = os.path.join(self._storage_path, name)

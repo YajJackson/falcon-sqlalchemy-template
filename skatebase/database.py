@@ -1,14 +1,18 @@
-from tortoise import Tortoise
+from sqlalchemy.orm import scoped_session
 
-#     "postgres",
-#     user="docker",
-#     password="chusaiyu3Xah8eefees3ealohgh0uJeiw9oeh1oh",
-#     host="db",
-#     database="skate",
 
-async def startDB():
-    await Tortoise.init(
-        db_url="postgres://docker:chusaiyu3Xah8eefees3ealohgh0uJeiw9oeh1oh@db:5432/skate",
-        modules={"models": ["skatebase.models"]})
-    print('generate tortoise schemas')
-    await Tortoise.generate_schemas()
+class SQLAlchemySessionManager:
+    """
+    Create a scoped session for every request and close it when the request
+    ends.
+    """
+
+    def __init__(self, Session: scoped_session):
+        self._Session = Session
+
+    def process_resource(self, req, resp, resource, params):
+        resource.db_session = self._Session()
+
+    def process_response(self, req, resp, resource, req_succeeded):
+        if hasattr(resource, "db_session"):
+            self._Session.remove()

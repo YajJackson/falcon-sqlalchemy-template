@@ -1,19 +1,23 @@
-import falcon.asgi
-from tortoise import run_async
+import falcon
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
 
-from skatebase.database import startDB
+import skatebase.settings as settings
 from skatebase.resources.image import Image
 from skatebase.resources.user import User
+from skatebase.database import SQLAlchemySessionManager
 
+engine = create_engine(
+    "{engine}://{username}:{password}@{host}:{port}/{db_name}".format(
+        **settings.POSTGRESQL
+    )
+)
+session_factory = sessionmaker(bind=engine)
+Session = scoped_session(session_factory)
 
-async def create_app(config=None):
-    print('start database')
-    await startDB()
+app = application = falcon.App(middleware=[
+    SQLAlchemySessionManager(Session),
+])
 
-    app = application = falcon.asgi.App()
-
-    print('add routes to app')
-    app.add_route("/image", Image(storage_path="."))
-    app.add_route("/user", User())
-
-    return app
+app.add_route("/image", Image(storage_path="."))
+app.add_route("/user", User())

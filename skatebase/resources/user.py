@@ -5,6 +5,6 @@ from skatebase.models.user import User as _User
 
 
 class User:
-    async def on_get(self, req, resp, **params):
+    def on_get(self, req, resp, **params):
         users = ["user1", "user2"]
         resp.text = json.dumps(users)
