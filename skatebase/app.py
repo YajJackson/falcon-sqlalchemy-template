@@ -7,6 +7,7 @@ from skatebase.resources.image import Image
 from skatebase.resources.user import UserResource
 from skatebase.middleware.sqlalchemy import SQLAlchemySessionManager
 from skatebase.middleware.logging import LogManager
+from skatebase.middleware.marshmallow import SerializerMiddleware
 
 engine = create_engine(
     "{engine}://{username}:{password}@{host}:{port}/{db_name}".format(
@@ -19,7 +20,8 @@ Session = scoped_session(session_factory)
 app = application = falcon.App(
     middleware=[
         SQLAlchemySessionManager(Session),
-        LogManager(include_file=False)
+        LogManager(include_file=False),
+        SerializerMiddleware()
     ]
 )
 
