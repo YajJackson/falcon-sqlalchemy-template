@@ -2,7 +2,7 @@ import json
 
 from marshmallow import Schema, fields
 from skatebase.lib.validate_schema import validate
-from skatebase.models.user import UserModel
+from skatebase.models.user import UserModel, UserSchema
 
 
 class UserPostSchema(Schema):
@@ -12,13 +12,10 @@ class UserPostSchema(Schema):
 
 class UserResource:
     def on_get(self, req, resp, **params):
-        users = ["user1", "user2"]
-
-        self.logger.info(
-            f"User table: {UserModel.__tablename__} has {len(users)} users."
-        )
-
-        resp.text = json.dumps(users)
+        users = self.db_session.query(UserModel).all()
+        user_schema = UserSchema(many=True)
+        res = user_schema.dump(users)
+        resp.text = json.dumps(res)
 
     @validate(UserPostSchema)
     def on_post(self, req, resp, **params):
