@@ -3,7 +3,7 @@ from functools import wraps
 import falcon
 import falcon.status_codes as status
 from marshmallow import Schema, ValidationError
-from skatebase.lib.errors import HTTPError
+from app.lib.errors import HTTPError
 
 
 # https://falcon.readthedocs.io/en/stable/_modules/falcon/media/validators/jsonschema.html

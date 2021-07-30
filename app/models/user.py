@@ -1,5 +1,5 @@
 from marshmallow_sqlalchemy import SQLAlchemySchema, auto_field
-from skatebase.models.model import Base
+from app.models.model import Base
 from sqlalchemy.sql.schema import Column
 from sqlalchemy.types import Integer, String
 

@@ -2,11 +2,11 @@ import falcon
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-import skatebase.settings as settings
-from skatebase.middleware.logging import LogManager
-from skatebase.middleware.sqlalchemy import SQLAlchemySessionManager
-from skatebase.resources.image import Image
-from skatebase.resources.user import UserResource
+import app.settings as settings
+from app.middleware.logging import LogManager
+from app.middleware.sqlalchemy import SQLAlchemySessionManager
+from app.resources.image import Image
+from app.resources.user import UserResource
 
 engine = create_engine(
     "{engine}://{username}:{password}@{host}:{port}/{db_name}".format(

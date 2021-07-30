@@ -1,8 +1,8 @@
 import json
 
 from marshmallow import Schema, fields
-from skatebase.lib.validate_schema import validate
-from skatebase.models.user import UserModel, UserSchema
+from app.lib.validate_schema import validate
+from app.models.user import UserModel, UserSchema
 
 
 class UserPostSchema(Schema):

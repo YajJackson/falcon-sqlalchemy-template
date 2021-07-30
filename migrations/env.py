@@ -17,8 +17,8 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from skatebase.models.model import Base
-from skatebase.models.user import UserModel
+from app.models.model import Base
+from app.models.user import UserModel
 
 target_metadata = Base.metadata
 
