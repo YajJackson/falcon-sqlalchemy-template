@@ -1,8 +1,9 @@
 import json
 
 from falcon import HTTP_OK, HTTPBadRequest, HTTPNotFound, HTTPUnprocessableEntity
+from marshmallow import Schema, fields
+from skatebase.lib.validate_schema import validate
 from skatebase.models.user import UserModel
-from marshmallow import fields, Schema
 
 
 class UserPostSchema(Schema):
@@ -11,15 +12,12 @@ class UserPostSchema(Schema):
 
 
 class UserResource:
-    serializers = {
-        "post": UserPostSchema,
-    }
-
     def on_get(self, req, resp, **params):
         self.logger.info(f"User table: {UserModel.__tablename__}")
         users = ["user1", "user2"]
         resp.text = json.dumps(users)
 
+    @validate(UserPostSchema)
     def on_post(self, req, resp, **params):
         data = req.context["serialized_data"]
 
