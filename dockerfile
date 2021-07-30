@@ -2,7 +2,7 @@ FROM python:3.9
 
 WORKDIR /app
 
-COPY skatebase .
+COPY app .
 COPY pyproject.toml .
 
 
